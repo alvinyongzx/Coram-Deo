@@ -1,0 +1,375 @@
+<title>Coram Deo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#173A3A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+/* Layout: single reading column; sticky header with language toggle + week strip; bottom tab bar for five sections */
+:root{
+  --bg:#EEF2F0; --surface:#FFFFFF; --ink:#152826; --muted:#5A6B68; --line:#D3DCD9;
+  --deep:#173A3A; --on-deep:#EAF1EE; --accent:#C8742E; --accent-soft:#F6E6D6;
+  --mrt-a:#7A4C9E; --mrt-b:#1F8A5B;
+  --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --zh-serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --zh-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1817; --surface:#162221; --ink:#E4ECEA; --muted:#97A8A4; --line:#2A3A38;
+  --deep:#1E4644; --on-deep:#EAF1EE; --accent:#E39A57; --accent-soft:#3A2A1C;
+  --mrt-a:#A57BCB; --mrt-b:#4CC08A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1817; --surface:#162221; --ink:#E4ECEA; --muted:#97A8A4; --line:#2A3A38;
+  --deep:#1E4644; --on-deep:#EAF1EE; --accent:#E39A57; --accent-soft:#3A2A1C;
+  --mrt-a:#A57BCB; --mrt-b:#4CC08A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65}
+html[lang^="zh"] body{font-family:var(--zh-sans);line-height:1.8}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main.wrap{padding-block:4px 110px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px 10px}
+.brand{font-family:var(--serif);font-size:24px;line-height:1}
+.brand small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+html[lang^="zh"] .brand small{font-family:var(--zh-sans);letter-spacing:2px}
+.lang{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{font:500 14px var(--sans);color:var(--muted);background:none;border:0;border-radius:999px;padding:5px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--deep);color:var(--on-deep)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding-block:0 12px}
+.day{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 2px;text-align:center;cursor:pointer;font:500 12px var(--sans)}
+.day b{display:block;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
+.day.today{border-color:var(--accent)}
+.day[aria-pressed="true"]{background:var(--deep);color:var(--on-deep);border-color:var(--deep)}
+nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabbar .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+nav.tabbar button{background:none;border:0;color:var(--muted);font:500 13px var(--sans);padding:14px 0 12px;cursor:pointer;border-top:2px solid transparent}
+html[lang^="zh"] nav.tabbar button{font-family:var(--zh-sans);font-size:14px}
+nav.tabbar button[aria-selected="true"]{color:var(--ink);border-top-color:var(--accent)}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);font-weight:600;margin:18px 0 0}
+html[lang^="zh"] .eyebrow,html[lang^="zh"] .label{letter-spacing:2px}
+.verse{background:var(--deep);color:var(--on-deep);border-radius:16px;padding:24px 22px;margin:10px 0 22px}
+.verse h1{font:400 34px/1.15 var(--serif);margin:0 0 14px;text-wrap:balance}
+.verse blockquote{margin:0;font:italic 400 23px/1.45 var(--serif)}
+html[lang^="zh"] .verse h1{font:600 28px/1.3 var(--zh-serif)}
+html[lang^="zh"] .verse blockquote{font:400 21px/1.75 var(--zh-serif)}
+.verse cite{display:block;margin-top:12px;font:500 13px var(--sans);letter-spacing:.6px;font-style:normal;opacity:.85}
+.verse cite a{color:inherit}
+.context{display:flex;flex-wrap:wrap;gap:4px 10px;background:var(--accent-soft);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:20px}
+.context .k{font-weight:600;color:var(--accent)}
+.prose p{margin:0 0 14px;max-width:65ch}
+.label{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin:24px 0 6px}
+.pray{font-family:var(--serif);font-size:20px;line-height:1.5;border-left:2px solid var(--accent);padding-left:14px;margin:0}
+html[lang^="zh"] .pray{font-family:var(--zh-serif);font-size:18px;line-height:1.8}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0}
+.panel ul{margin:0;padding-left:20px}.panel li{margin:4px 0}
+h2.sec{font:400 30px/1.2 var(--serif);margin:16px 0 6px;text-wrap:balance}
+html[lang^="zh"] h2.sec{font:600 24px/1.4 var(--zh-serif)}
+.sub{color:var(--muted);margin:0 0 16px;max-width:60ch}
+.qa .q{font-weight:600;margin:0 0 6px}.qa .a{margin:0}
+.family-time{display:inline-block;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px;margin-top:6px}
+.plans{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 16px}
+.plans button{font:500 14px var(--sans);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+html[lang^="zh"] .plans button{font-family:var(--zh-sans)}
+.plans button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.progress{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);margin-bottom:14px;font-variant-numeric:tabular-nums}
+.progress .track{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress .fill{height:100%;background:var(--line-colour,var(--mrt-a))}
+.line{position:relative;list-style:none;margin:0;padding:0}
+.line::before{content:"";position:absolute;left:23px;top:14px;bottom:14px;width:6px;border-radius:3px;background:var(--line-colour,var(--mrt-a))}
+.stop{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 0}
+.dot{justify-self:center;width:22px;height:22px;border-radius:50%;background:var(--surface);border:5px solid var(--line-colour,var(--mrt-a));z-index:1}
+.stop.done .dot{background:var(--line-colour,var(--mrt-a))}
+.stop.next .dot{width:28px;height:28px;box-shadow:0 0 0 4px var(--accent-soft)}
+.code{display:inline-block;font:600 12px var(--sans);color:#fff;background:var(--line-colour,var(--mrt-a));border-radius:4px;padding:1px 6px;margin-right:8px;font-variant-numeric:tabular-nums}
+.stop .cap{min-width:0}
+.stop .cap span{color:var(--muted);font-size:14px}
+.stop .act{display:flex;gap:6px;align-items:center}
+.stop a{font-size:14px;color:var(--ink)}
+.chk{width:22px;height:22px;accent-color:var(--deep);cursor:pointer}
+.reset{margin-top:14px;font:500 13px var(--sans);background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer}
+.reader-controls{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+select,.btn{font:500 15px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+html[lang^="zh"] select,html[lang^="zh"] .btn{font-family:var(--zh-sans)}
+.btn{background:var(--deep);color:var(--on-deep);border-color:var(--deep);cursor:pointer;text-decoration:none;display:inline-block}
+.chapter p{margin:0 0 10px;font-family:var(--serif);font-size:20px;line-height:1.55;max-width:65ch}
+.vn{font:600 11px var(--sans);color:var(--accent);vertical-align:super;margin-right:4px}
+.note{color:var(--muted);font-size:13px;margin:0 0 14px}
+footer{color:var(--muted);font-size:12px;margin-top:36px;border-top:1px solid var(--line);padding-top:14px}
+footer a{color:var(--muted)}
+@media (max-width:420px){.brand small{display:none}.verse h1{font-size:30px}.verse blockquote{font-size:21px}}
+@media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease-out}@keyframes in{from{opacity:.4}to{opacity:1}}}
+</style>
+
+<header class="top"><div class="wrap">
+  <div class="bar">
+    <div class="brand">Coram Deo<small id="tagline">Daily devotion · Singapore</small></div>
+    <div class="lang" aria-label="Language">
+      <button id="lang-en" data-lang="en" aria-pressed="true">EN</button>
+      <button id="lang-zh" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
+  <div class="week" id="week" aria-label="Pick a day this week"></div>
+</div></header>
+
+<main class="wrap" id="main"></main>
+
+<nav class="tabbar" aria-label="Sections"><div class="wrap" role="tablist" id="tabs"></div></nav>
+
+<script>
+const UI={
+ en:{tagline:"Before the face of God · Singapore",about:"Coram Deo is Latin for “before the face of God”. Daily Reformed devotions for life in Singapore: at work, on the MRT and around the dinner table.",series:"Haze season series · Week of 12 Oct",tabs:{today:"Today",commute:"Commute",pray:"Pray",family:"Family",bible:"Bible"},
+  prayLbl:"Pray",doLbl:"Live it out today",ver:"NIV",readFull:"Read",
+  commuteH:"One stop, one chapter",commuteSub:"Reading plans sized for the MRT. Each stop is one chapter, roughly a five-minute read. Tick it off when you alight.",
+  plans:{mark:"Mark Line",ascent:"Ascent Line"},planSub:{mark:"The Gospel of Mark · 16 stops",ascent:"Psalms of Ascents, Psalms 120–134 · 15 stops"},
+  of:"of",stops:"stops done",nextStop:"Next stop",reset:"Start the line again",
+  prayH:"Pray for Singapore",praySub:"\"I urge, then, first of all, that petitions, prayers, intercessions and thanksgiving be made for all people, for kings and all those in authority.\" 1 Timothy 2:1–2 (NIV)",
+  todayFocus:"Today's focus",weekFocus:"This week",scripture:"Pray through",
+  famH:"Family worship",famSub:"About ten minutes after dinner. Read, talk, learn, sing and pray, built on today's devotion.",
+  famRead:"Read together",famTalk:"Talk about it",famCat:"Westminster Shorter Catechism",famSing:"Sing",famPray:"Pray",famTime:"10 minutes",
+  bibleH:"Bible",bibleSel:"Selected verses",bibleOpen:"Read the full chapter on Bible Gateway",bibleOnly:"Full text opens on Bible Gateway. Selected NIV verses are built in for Romans 8, Ephesians 2, John 3 and Psalms 23 and 46.",chapter:"Chapter",readBtn:"Read",
+  footer:'Scripture quotations from the Holy Bible, New International Version® (NIV®). Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.® Used by permission. Chinese verses from the Chinese Union Version (和合本), public domain. Haze figures from NEA reports via the press; live readings at <a href="https://www.haze.gov.sg" target="_blank" rel="noopener">haze.gov.sg</a>.'},
+ zh:{tagline:"在神面前 · 新加坡",about:"Coram Deo 是拉丁文，意思是「在神面前」。为新加坡人预备的每日改革宗灵修：在工作中、地铁上、饭桌旁，都活在神面前。",series:"烟霾季节系列 · 10月12日这一周",tabs:{today:"灵修",commute:"通勤",pray:"祷告",family:"家庭",bible:"圣经"},
+  prayLbl:"祷告",doLbl:"今天的行动",ver:"和合本",readFull:"阅读",
+  commuteH:"一站，一章",commuteSub:"为搭地铁设计的读经计划。每一站是一章，大约五分钟读完。下车时打个勾。",
+  plans:{mark:"马可线",ascent:"上行线"},planSub:{mark:"马可福音 · 16站",ascent:"上行之诗，诗篇120–134篇 · 15站"},
+  of:"/",stops:"站已完成",nextStop:"下一站",reset:"重新开始这条线",
+  prayH:"为新加坡祷告",praySub:"「我劝你，第一要为万人恳求、祷告、代求、祝谢；为君王和一切在位的，也该如此。」提摩太前书2:1–2（和合本）",
+  todayFocus:"今日焦点",weekFocus:"本周",scripture:"经文",
+  famH:"家庭礼拜",famSub:"晚饭后约十分钟。一起读经、分享、学要理、唱诗、祷告，内容与今天的灵修相连。",
+  famRead:"一起读",famTalk:"一起谈",famCat:"威斯敏斯德小要理问答",famSing:"唱诗",famPray:"祷告",famTime:"10分钟",
+  bibleH:"圣经",bibleSel:"精选经文",bibleOpen:"在 Bible Gateway 阅读新译本",bibleOnly:"点击下方按钮，在 Bible Gateway 阅读新译本（CNVS）全章经文。",chapter:"第{n}章",readBtn:"阅读",
+  footer:'英文经文引自新国际版（NIV®），Biblica, Inc.® 版权所有，经许可使用。中文经文引自和合本（公有领域）；完整新译本经文链接至 Bible Gateway。要理问答中文为本站意译，仅供参考。烟霾数据来自NEA报道，实时数据请看 <a href="https://www.haze.gov.sg" target="_blank" rel="noopener">haze.gov.sg</a>。'}
+};
+
+const DAYS=[
+{d:["Mon","一"],date:12,
+ en:{title:"Every breath, a gift",ref:"Job 33:4",text:"The Spirit of God has made me; the breath of the Almighty gives me life.",
+  ctx:["This week","The 24-hour PSI hit 186 in central Singapore on 9 Oct, the highest this year. Smoke is drifting in from Sumatra and Kalimantan."],
+  body:["You only notice breathing when it gets hard. A week of grey skies, that faint burnt smell along the HDB corridor, and suddenly every lungful feels like something to think about.","Job's friend Elihu reminds us that breath was never ours to begin with. It is lent, moment by moment, by the Almighty. The Westminster Confession puts it plainly: God upholds, directs and governs all creatures and actions, from the greatest to the least. That includes the wind direction this week.","So the haze is no accident outside God's reach. That doesn't make it pleasant. It does mean that each breath, clear or hazy, is still a gift from a Father who has not stopped holding you."],
+  pray:"Lord, You gave me breath this morning. Teach me to thank You for it, and to trust You with the air I cannot control.",
+  act:"Check NEA's haze advisory before heading out, and take it slow outdoors if the PSI is above 100."},
+ zh:{title:"每一口气，都是恩典",ref:"约伯记 33:4",text:"神的灵造我，全能者的气使我得生。",
+  ctx:["本周","10月9日，中区24小时PSI升至186，创今年新高。烟霾来自苏门答腊和加里曼丹。"],
+  body:["呼吸，平时不会多想；直到它变得困难。灰蒙蒙的天空，组屋走廊上淡淡的焦味，忽然间每一口气都让人在意起来。","以利户提醒约伯：气息从来不是我们自己的，是全能者一刻一刻借给我们的。《威斯敏斯德信条》说得明白：神托住、指引、管理一切受造之物和一切作为，从最大到最小。这也包括本周的风向。","所以烟霾并不在神的掌管之外。这不代表它好受，却表示：无论空气清新或混浊，每一口气仍是天父的恩赐。祂没有放手。"],
+  pray:"主啊，今天早上是你赐我气息。求你教我为此感恩，也把我无法控制的空气交托给你。",
+  act:"出门前先查看NEA的烟霾指引；PSI超过100时，户外活动放慢一点。"},
+ fam:{en:{talk:["Can you hold your breath for ten seconds? Who gives us every breath?","When the sky is grey, what do you think God is doing?"],cat:["Q11. What are God's works of providence?","God's works of providence are his most holy, wise, and powerful preserving and governing all his creatures, and all their actions."],sing:"Great Is Thy Faithfulness",pray:"Thank You, God, for every breath. Please clear the sky."},
+      zh:{talk:["你能憋气十秒吗？是谁赐给我们每一口气？","天空灰灰的时候，你觉得神在做什么？"],cat:["问11：神护理的工作是什么？","神护理的工作，就是祂以至圣、至智、全能的方式，保守并管理祂一切的受造物，和它们一切的作为。"],sing:"《祢的信实广大》",pray:"谢谢神赐我每一口气，求你让天空变蓝。"}},
+ nat:{en:{h:"Our leaders",pts:["The President, the Prime Minister and the Cabinet","Wisdom on haze diplomacy and a slowing economy","Members of Parliament as they serve their constituencies"],ref:"1 Timothy 2:1–4"},
+      zh:{h:"国家领袖",pts:["总统、总理和内阁","在烟霾外交与经济放缓中得着智慧","国会议员服务选区时有清洁的心"],ref:"提摩太前书 2:1–4"}}},
+{d:["Tue","二"],date:13,
+ en:{title:"Neighbours under the smoke",ref:"Matthew 22:39",text:"And the second is like it: 'Love your neighbour as yourself.'",
+  ctx:["Across the strait","Air quality stations in Sumatra, Borneo and Peninsular Malaysia have reported unhealthy to hazardous levels. Melaka closed its schools on 9 Oct."],
+  body:["It's easy to grumble about the haze and stop there. Ah, the fires again. But the same smoke that dims Marina Bay sits far thicker over villages in Riau and Kalimantan, where families have no air purifier and no aircon to retreat into.","Jesus's word to love our neighbour has no border control. The Samaritan didn't check where the wounded man was from. Our neighbours this week include farmers, firefighters and children breathing much worse air than ours.","Grace frees us from needing someone to blame before we can care. We can pray for justice on land clearing and still pray, today, for the people under the smoke."],
+  pray:"Father, have mercy on our neighbours in Sumatra and Kalimantan. Strengthen those fighting the fires, and send rain.",
+  act:"Pray by name for one affected place, such as Riau or Central Kalimantan, during your lunch break."},
+ zh:{title:"烟霾下的邻舍",ref:"马太福音 22:39",text:"其次也相仿，就是要爱人如己。",
+  ctx:["海峡对岸","苏门答腊、婆罗洲和马来半岛多个监测站录得不健康至危险水平。马六甲在10月9日关闭所有学校。"],
+  body:["烟霾来了，抱怨几句很容易：「又是烧芭。」但遮住滨海湾的烟，在廖内和加里曼丹的村庄里要浓得多。那里的家庭没有空气净化器，也没有冷气房可以躲。","耶稣说「要爱人如己」，这条命令没有关卡。好撒玛利亚人没有先查那受伤的人从哪里来。这个星期，我们的邻舍包括农民、救火员，还有呼吸着比我们糟得多的空气的孩子。","恩典使我们不必先找到该怪罪的人，才去关怀。我们可以为土地开发的公义祷告，今天也同样为烟雾下的人祷告。"],
+  pray:"天父，求你怜悯苏门答腊和加里曼丹的邻舍，坚固扑灭火灾的人，并且降下雨水。",
+  act:"午餐时，为一个受影响的地方（例如廖内或中加里曼丹）具体祷告。"},
+ fam:{en:{talk:["Who is our neighbour? Can someone in another country be our neighbour?","What's one kind thing we can do for someone this week?"],cat:["Q42. What is the sum of the ten commandments?","The sum of the ten commandments is, to love the Lord our God with all our heart, with all our soul, with all our strength, and with all our mind; and our neighbour as ourselves."],sing:"O God, Our Help in Ages Past",pray:"Lord, please help the children breathing smoky air in Indonesia and Malaysia."},
+      zh:{talk:["谁是我们的邻舍？住在别的国家的人，也可以是邻舍吗？","这个星期，我们可以为别人做一件什么好事？"],cat:["问42：十诫的总纲是什么？","十诫的总纲就是：要尽心、尽性、尽力、尽意爱主我们的神，并且要爱邻舍如同自己。"],sing:"《千古保障》",pray:"主啊，求你帮助在印尼和马来西亚吸着烟雾的小朋友。"}},
+ nat:{en:{h:"Those who keep us safe and well",pts:["SAF and Home Team officers","Doctors, nurses and polyclinic staff seeing more respiratory cases","NEA officers monitoring air quality"],ref:"Psalm 121:7–8"},
+      zh:{h:"守护我们的人",pts:["新加坡武装部队与内政团队","医生、护士和综合诊疗所人员，面对更多呼吸道病例","监测空气素质的NEA人员"],ref:"诗篇 121:7–8"}}},
+{d:["Wed","三"],date:14,
+ en:{title:"Restructured",ref:"Matthew 6:34",text:"Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own.",
+  ctx:["Jobs","MOM reported 4,500 retrenchments in Q2 2026, up from 3,830, mostly from restructuring in infocomm and manufacturing."],
+  body:["The word 'restructuring' lands differently when it's your department. Maybe you've seen a colleague's desk cleared, or you're refreshing LinkedIn more than you'd like to admit.","Jesus doesn't tell us tomorrow will be fine. He says tomorrow has its own trouble. What He forbids is borrowing that trouble today, as if the Father who feeds the sparrows at the hawker centre has lost track of us.","The Heidelberg Catechism opens with our only comfort in life and death: that we belong, body and soul, to our faithful Saviour Jesus Christ. Your employer can reorganise your role. It cannot reorganise whose you are."],
+  pray:"Lord, I give You today's work and tomorrow's uncertainty. Keep me faithful in the first and at peace about the second.",
+  act:"If someone you know has been retrenched, message them today. A kopi together says more than advice."},
+ zh:{title:"当公司「重组」时",ref:"马太福音 6:34",text:"所以，不要为明天忧虑，因为明天自有明天的忧虑；一天的难处一天当就够了。",
+  ctx:["就业","人力部报告：2026年第二季裁员人数从3830人增至4500人，主要因资讯通信和制造业重组。"],
+  body:["「重组」这两个字，落在自己部门时，感觉完全不一样。也许你看见同事的桌子清空了，或者发现自己刷LinkedIn的次数，比愿意承认的还多。","耶稣没有说明天一定没事；祂说明天自有明天的难处。祂禁止的，是今天就预支明天的忧虑，好像那位连小麻雀都喂养的天父，忘记了我们。","《海德堡要理问答》第一问说：我们生时死时唯一的安慰，就是身体和灵魂都属于信实的救主耶稣基督。公司可以重组你的职位，却无法重组你属于谁。"],
+  pray:"主啊，我把今天的工作和明天的未知都交给你。求你使我在今天忠心，对明天安然。",
+  act:"如果你认识刚被裁员的人，今天就传个简讯给他。约他喝杯咖啡，比给建议更有力量。"},
+ fam:{en:{talk:["What's something you worry about? Let's give it to God together.","Does Daddy's or Mummy's job decide who we belong to?"],cat:["Q1. What is the chief end of man?","Man's chief end is to glorify God, and to enjoy him for ever."],sing:"It Is Well with My Soul",pray:"Jesus, we belong to You. Please look after the families who have lost their jobs."},
+      zh:{talk:["你有什么担心的事吗？我们一起把它交给神。","爸爸妈妈的工作，会决定我们属于谁吗？"],cat:["问1：人生的首要目的是什么？","人生的首要目的，就是荣耀神，并永远以祂为乐。"],sing:"《我心灵得安宁》",pray:"耶稣，我们是属于你的。求你看顾失去工作的家庭。"}},
+ nat:{en:{h:"Workers and the retrenched",pts:["Those affected by restructuring, and their families","Jobseekers and fresh graduates entering a cautious market","Employers making hard decisions with fairness"],ref:"Colossians 3:23–24"},
+      zh:{h:"打工的人与被裁员者",pts:["受重组影响的员工和他们的家人","在谨慎市场中找工作的人和应届毕业生","作艰难决定的雇主，能秉公处理"],ref:"歌罗西书 3:23–24"}}},
+{d:["Thu","四"],date:15,
+ en:{title:"Enough",ref:"Hebrews 13:5",text:"Keep your lives free from the love of money and be content with what you have, because God has said, 'Never will I leave you; never will I forsake you.'",
+  ctx:["Household","Cost of living keeps coming up as Singaporeans' top worry, even with official inflation modest."],
+  body:["The plate of chicken rice that used to be $3.50. The groceries. The conversation about whether the next car or the next renovation still makes sense.","Hebrews doesn't pretend money doesn't matter. It roots contentment somewhere money can't reach: God's promise never to leave. Contentment is not a mood we work up. It's what grows when we believe He is actually present at the dinner table, the bill and all.","Being careful with money is wisdom. Being anxious about it, or defined by it, is the snare. The Christian can budget hard and rest easy at the same time."],
+  pray:"Father, You have never left me. Free me from the fear of not having enough, and make me generous with what I have.",
+  act:"Write down three things you already have that you once prayed for."},
+ zh:{title:"知足",ref:"希伯来书 13:5",text:"你们存心不可贪爱钱财，要以自己所有的为足；因为主曾说：我总不撇下你，也不丢弃你。",
+  ctx:["生活费","尽管官方通胀温和，生活费依然是国人最大的担忧之一。"],
+  body:["以前三块半的鸡饭，现在不是这个价了。还有杂货，还有那个讨论：换车、装修，还值不值得？","希伯来书没有假装钱不重要。它把知足扎根在钱碰不到的地方：神应许永不撇下我们。知足不是靠情绪培养出来的，而是当我们真相信祂就在饭桌旁，连账单也在祂眼前，才慢慢长出来的。","谨慎理财是智慧；为钱焦虑、被钱定义，却是网罗。基督徒可以认真预算，同时安心歇息。"],
+  pray:"天父，你从未离开我。求你救我脱离「不够」的恐惧，使我乐意慷慨分享你所赐的。",
+  act:"写下三样你曾经为之祷告、如今已经拥有的东西。"},
+ fam:{en:{talk:["Name three things God has given our family.","Is it okay to want things? When does wanting become a problem?"],cat:["Q80. What is required in the tenth commandment?","The tenth commandment requireth full contentment with our own condition, with a right and charitable frame of spirit toward our neighbour, and all that is his."],sing:"Count Your Blessings",pray:"Thank You, God, that we have enough. Help us to share."},
+      zh:{talk:["说出三样神赐给我们家的东西。","想要东西可以吗？什么时候「想要」会变成问题？"],cat:["问80：第十诫要求什么？","第十诫要求我们对自己的景况完全知足，并对邻舍和他一切所有的，存正直和仁爱的心。"],sing:"《数算主恩》",pray:"谢谢神，我们所有的已经足够。求你帮助我们乐意分享。"}},
+ nat:{en:{h:"Migrant workers and domestic helpers",pts:["Construction and outdoor workers labouring through the haze","Domestic helpers far from their own families","Employers who treat them with justice and kindness"],ref:"Deuteronomy 10:18–19"},
+      zh:{h:"客工与家庭帮佣",pts:["在烟霾中仍在户外工作的建筑工人","远离家人的家庭帮佣","雇主以公义和恩慈待他们"],ref:"申命记 10:18–19"}}},
+{d:["Fri","五"],date:16,
+ en:{title:"Check on someone",ref:"Galatians 6:2",text:"Carry each other's burdens, and in this way you will fulfil the law of Christ.",
+  ctx:["Who's most at risk","NEA asks the elderly, pregnant women, children and those with heart or lung conditions to minimise outdoor exertion."],
+  body:["The haze is an inconvenience for most of us and a real threat for some. The uncle at the void deck with asthma. Your own parents. The young family next door with a newborn.","Paul says carrying each other's burdens fulfils the law of Christ. That's not a programme. It's knocking on a door, dropping off a pack of masks, asking whether the purifier is working.","The church in Singapore is scattered across a thousand estates. That's a thousand small chances this week for Christ's love to be very practical."],
+  pray:"Lord, show me whose burden I can carry this week, and give me the courage to actually ring the doorbell.",
+  act:"Call an elderly relative or neighbour and ask if they have masks and medication on hand."},
+ zh:{title:"去关心一个人",ref:"加拉太书 6:2",text:"你们各人的重担要互相担当，如此，就完全了基督的律法。",
+  ctx:["高风险人群","NEA建议年长者、孕妇、儿童及心肺疾病患者尽量减少户外活动。"],
+  body:["对大多数人来说，烟霾只是不方便；对一些人来说，却是真实的威胁。组屋楼下有哮喘的安哥，你自己的父母，隔壁刚生宝宝的小家庭。","保罗说，互相担当重担，就完全了基督的律法。这不是一个项目，而是去敲一扇门，送一包口罩，问一句：「空气净化器还好用吗？」","新加坡的教会散布在上千个社区里。这就是上千个机会，让基督的爱在这个星期变得很实际。"],
+  pray:"主啊，求你让我看见这周可以帮谁担当重担，也赐我勇气真的去按门铃。",
+  act:"打电话给一位年长的亲人或邻居，问问他们口罩和药物是否足够。"},
+ fam:{en:{talk:["Which grandparent or elderly neighbour can we call tonight?","How can we help someone who can't go outside?"],cat:["Q64. What is required in the fifth commandment?","The fifth commandment requireth the preserving the honour, and performing the duties, belonging to every one in their several places and relations, as superiors, inferiors, or equals."],sing:"What a Friend We Have in Jesus",pray:"Lord, please keep Grandma and Grandpa safe and well."},
+      zh:{talk:["今晚我们可以打电话给哪位爷爷奶奶或年长的邻居？","我们可以怎样帮助不能出门的人？"],cat:["问64：第五诫要求什么？","第五诫要求我们在各样身份和关系中，无论是对上、对下或对同辈，都保守各人应得的尊荣，并尽彼此当尽的本分。"],sing:"《耶稣恩友》",pray:"主啊，求你保守爷爷奶奶平安健康。"}},
+ nat:{en:{h:"Families, students and seniors",pts:["Students sitting exams this season","Seniors living alone, especially those with breathing problems","Young parents juggling work and care"],ref:"Psalm 103:13–14"},
+      zh:{h:"家庭、学生与长者",pts:["这个季节正在考试的学生","独居长者，特别是有呼吸问题的","兼顾工作和照顾孩子的年轻父母"],ref:"诗篇 103:13–14"}}},
+{d:["Sat","六"],date:17,
+ en:{title:"Waiting for rain",ref:"James 5:7",text:"Be patient, then, brothers and sisters, until the Lord's coming. See how the farmer waits for the land to yield its valuable crop, patiently waiting for the autumn and spring rains.",
+  ctx:["Forecast","The Met Service expects the monsoon transition only in late October or early November this year, later than usual because of a strong El Niño."],
+  body:["We're all waiting for the same thing: proper rain. The kind that washes the sky clean overnight.","James points to the farmer, who cannot make it rain and doesn't pretend he can. He waits, works and watches. James then reminds us that Elijah, an ordinary man, prayed and the rain came. Waiting and praying belong together.","Most of the Christian life is spent in seasons like this one, between promise and fulfilment. The haze will lift. Christ will return. Both are certain, and neither is on our timetable."],
+  pray:"God of the rain, we ask You plainly: send showers on our region. Teach us to wait for You with patience and hope.",
+  act:"Pray specifically for rain with your family or cell group this weekend."},
+ zh:{title:"等候雨水",ref:"雅各书 5:7",text:"弟兄们哪，你们要忍耐，直到主来。看哪，农夫忍耐等候地里宝贵的出产，直到得了秋雨春雨。",
+  ctx:["天气预测","气象局预计今年季风转换要到十月底或十一月初，因强厄尔尼诺而比往年迟。"],
+  body:["我们都在等同一件事：一场真正的雨，一夜之间把天空洗干净。","雅各指着农夫说话。农夫不能叫天下雨，也不假装能。他等候、劳作、观看。雅各接着提醒我们：以利亚是和我们性情一样的人，他祷告，雨就降下。等候与祷告是分不开的。","基督徒的一生，大多活在这样的季节里：在应许和成就之间。烟霾必会散去，基督必会再来。两样都是确定的，却都不按我们的时间表。"],
+  pray:"掌管雨水的神，我们直接求你：降雨在我们这一带。教我们以忍耐和盼望等候你。",
+  act:"这个周末，和家人或小组一起，具体为降雨祷告。"},
+ fam:{en:{talk:["Elijah prayed for rain. What shall we pray for today?","Why do we sometimes have to wait for God's answer?"],cat:["Q98. What is prayer?","Prayer is an offering up of our desires unto God, for things agreeable to his will, in the name of Christ, with confession of our sins, and thankful acknowledgment of his mercies."],sing:"God Will Take Care of You",pray:"Dear God, please send rain and wash the sky clean."},
+      zh:{talk:["以利亚为下雨祷告。我们今天要为什么祷告？","为什么有时候我们要等候神的回应？"],cat:["问98：祷告是什么？","祷告就是奉基督的名，将我们的心愿献给神，所求的是合乎祂旨意的事，同时认罪，并感谢祂的怜悯。"],sing:"《神必看顾你》",pray:"亲爱的神，求你降雨，把天空洗干净。"}},
+ nat:{en:{h:"Our region",pts:["Communities in Indonesia and Malaysia under thicker haze","Firefighters on the ground in Sumatra and Kalimantan","Rain, and an early end to the dry season"],ref:"James 5:17–18"},
+      zh:{h:"我们的区域",pts:["印尼和马来西亚烟霾更浓的社区","苏门答腊和加里曼丹第一线的救火员","求降雨，使旱季早日结束"],ref:"雅各书 5:17–18"}}},
+{d:["Sun","日"],date:18,
+ en:{title:"Be still",ref:"Psalm 46:10",text:"He says, 'Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.'",
+  ctx:["Lord's Day","A day to gather, rest and look up, whatever the PSI says."],
+  body:["After a week of grey skies, job news and price tags, the Lord's Day comes as an invitation, not another task.","'Be still' in Psalm 46 is less 'relax' and more 'stop striving'. Put down the weapons, the worry and the endless checking. God is exalted among the nations, Singapore and Indonesia included. He doesn't need our anxiety to run the world.","Luther loved this psalm in hard seasons. Gather with God's people today, sing it if you can, and let the week's noise settle under His Word."],
+  pray:"Lord, I stop. You are God and I am not. Be exalted in my heart, my home and this nation today.",
+  act:"Leave your phone in a drawer for an hour after service."},
+ zh:{title:"你们要休息",ref:"诗篇 46:10",text:"你们要休息，要知道我是神！我必在外邦中被尊崇，在遍地上也被尊崇。",
+  ctx:["主日","无论PSI多少，今天是聚集、安息、仰望的日子。"],
+  body:["经历了一周的灰天、裁员新闻和价钱标签，主日来到，是一个邀请，而不是另一项任务。","诗篇46篇的「要休息」，与其说是「放松」，不如说是「停止挣扎」：放下武器、放下忧虑、放下不停地查看。神在列国中被尊崇，新加坡和印尼都在其中。祂掌管世界，不需要我们的焦虑。","马丁·路德在艰难的日子里特别喜爱这篇诗。今天和神的子民一同聚会，若能，就唱这首诗，让一周的喧嚣在神的话语下安静下来。"],
+  pray:"主啊，我停下来。你是神，我不是。求你今天在我心里、家里和这个国家中被尊崇。",
+  act:"聚会后，把手机放进抽屉一个小时。"},
+ fam:{en:{talk:["What does 'be still' mean? Let's be quiet for one minute and listen.","What's your favourite thing about God?"],cat:["Q4. What is God?","God is a Spirit, infinite, eternal, and unchangeable, in his being, wisdom, power, holiness, justice, goodness, and truth."],sing:"A Mighty Fortress Is Our God",pray:"God, You are big and strong. We trust You."},
+      zh:{talk:["「要休息」是什么意思？我们一起安静一分钟，听一听。","你最喜欢神的哪一点？"],cat:["问4：神是什么？","神是灵，祂的存在、智慧、能力、圣洁、公义、良善和信实，都是无限、永恒、不改变的。"],sing:"《坚固保障》",pray:"神啊，你又大又有能力，我们信靠你。"}},
+ nat:{en:{h:"The church in Singapore",pts:["Unity across denominations and language services","Faithful preaching of the Word this Lord's Day","Gracious witness in a multi-religious society"],ref:"John 17:20–23"},
+      zh:{h:"新加坡的教会",pts:["各宗派、各语言堂会的合一","今天主日忠心传讲神的话","在多元宗教社会中有美好的见证"],ref:"约翰福音 17:20–23"}}}
+];
+
+const PLANS={
+ mark:{book:"Mark",zhBook:"马可福音",code:"MK",colour:"var(--mrt-a)",start:1,
+  en:["Jesus begins","Friends through the roof","The Twelve chosen","The sower","Legion and the healed woman","Five loaves","Clean hearts","Who do you say I am?","Transfigured","To serve, not be served","Into Jerusalem","The greatest commandment","Stay awake","Gethsemane","The cross","He is risen"],
+  zh:["耶稣开始传道","拆房顶的朋友","拣选十二门徒","撒种的比喻","赶鬼与血漏妇人","五饼二鱼","洁净的心","你们说我是谁","登山变像","来要服事人","进耶路撒冷","最大的诫命","要警醒","客西马尼","十字架","祂复活了"]},
+ ascent:{book:"Psalm",zhBook:"诗篇",code:"PA",colour:"var(--mrt-b)",start:120,
+  en:["A cry in distress","My help comes from the Lord","To the house of the Lord","Eyes lifted up","If the Lord had not","Like Mount Zion","Restore our fortunes","Unless the Lord builds","A blessed home","Afflicted, not overcome","Out of the depths","A quieted soul","David's oath","Unity","Praise by night"],
+  zh:["患难中呼求","我的帮助从耶和华而来","往耶和华的殿去","举目向你","若不是耶和华","如锡安山","使我们归回","若不是耶和华建造","蒙福的家","受苦不被胜过","从深处求告","心中安稳","大卫的誓言","弟兄和睦","夜间称颂"]}
+};
+
+const BOOKS="Genesis 创世记 50|Exodus 出埃及记 40|Leviticus 利未记 27|Numbers 民数记 36|Deuteronomy 申命记 34|Joshua 约书亚记 24|Judges 士师记 21|Ruth 路得记 4|1 Samuel 撒母耳记上 31|2 Samuel 撒母耳记下 24|1 Kings 列王纪上 22|2 Kings 列王纪下 25|1 Chronicles 历代志上 29|2 Chronicles 历代志下 36|Ezra 以斯拉记 10|Nehemiah 尼希米记 13|Esther 以斯帖记 10|Job 约伯记 42|Psalms 诗篇 150|Proverbs 箴言 31|Ecclesiastes 传道书 12|Song of Songs 雅歌 8|Isaiah 以赛亚书 66|Jeremiah 耶利米书 52|Lamentations 耶利米哀歌 5|Ezekiel 以西结书 48|Daniel 但以理书 12|Hosea 何西阿书 14|Joel 约珥书 3|Amos 阿摩司书 9|Obadiah 俄巴底亚书 1|Jonah 约拿书 4|Micah 弥迦书 7|Nahum 那鸿书 3|Habakkuk 哈巴谷书 3|Zephaniah 西番雅书 3|Haggai 哈该书 2|Zechariah 撒迦利亚书 14|Malachi 玛拉基书 4|Matthew 马太福音 28|Mark 马可福音 16|Luke 路加福音 24|John 约翰福音 21|Acts 使徒行传 28|Romans 罗马书 16|1 Corinthians 哥林多前书 16|2 Corinthians 哥林多后书 13|Galatians 加拉太书 6|Ephesians 以弗所书 6|Philippians 腓立比书 4|Colossians 歌罗西书 4|1 Thessalonians 帖撒罗尼迦前书 5|2 Thessalonians 帖撒罗尼迦后书 3|1 Timothy 提摩太前书 6|2 Timothy 提摩太后书 4|Titus 提多书 3|Philemon 腓利门书 1|Hebrews 希伯来书 13|James 雅各书 5|1 Peter 彼得前书 5|2 Peter 彼得后书 3|1 John 约翰一书 5|2 John 约翰二书 1|3 John 约翰三书 1|Jude 犹大书 1|Revelation 启示录 22"
+ .split("|").map(s=>{const m=s.match(/^(.*?) (\S*[一-鿿]\S*) (\d+)$/);return{en:m[1],zh:m[2],ch:+m[3]}});
+
+const PASSAGES={
+"Romans 8":[[1,"Therefore, there is now no condemnation for those who are in Christ Jesus,"],[2,"because through Christ Jesus the law of the Spirit who gives life has set you free from the law of sin and death."],[28,"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."],[29,"For those God foreknew he also predestined to be conformed to the image of his Son, that he might be the firstborn among many brothers and sisters."],[30,"And those he predestined, he also called; those he called, he also justified; those he justified, he also glorified."]],
+"Ephesians 2":[[1,"As for you, you were dead in your transgressions and sins,"],[4,"But because of his great love for us, God, who is rich in mercy,"],[5,"made us alive with Christ even when we were dead in transgressions – it is by grace you have been saved."],[8,"For it is by grace you have been saved, through faith – and this is not from yourselves, it is the gift of God –"],[9,"not by works, so that no one can boast."],[10,"For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do."]],
+"John 3":[[16,"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."],[17,"For God did not send his Son into the world to condemn the world, but to save the world through him."]],
+"Psalms 23":[[1,"The Lord is my shepherd, I lack nothing."],[2,"He makes me lie down in green pastures, he leads me beside quiet waters,"],[3,"he refreshes my soul. He guides me along the right paths for his name's sake."],[4,"Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me."],[6,"Surely your goodness and love will follow me all the days of my life, and I will dwell in the house of the Lord for ever."]],
+"Psalms 46":[[1,"God is our refuge and strength, an ever-present help in trouble."],[2,"Therefore we will not fear, though the earth give way and the mountains fall into the heart of the sea,"],[3,"though its waters roar and foam and the mountains quake with their surging."],[10,"He says, 'Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.'"],[11,"The Lord Almighty is with us; the God of Jacob is our fortress."]]
+};
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(_){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}}};
+const todayIdx=(new Date().getDay()+6)%7;
+const state={lang:store.get("sdg-lang","en"),tab:"today",day:todayIdx,plan:store.get("sdg-plan","mark"),done:store.get("sdg-done",{mark:[],ascent:[]}),book:18,chap:46};
+const TABS=["today","commute","pray","family","bible"];
+const gw=(q,lang)=>`https://www.biblegateway.com/passage/?search=${encodeURIComponent(q)}&version=${lang==="zh"?"CNVS":"NIVUK"}`;
+const refLink=(enR,label,lang)=>`<a href="${gw(enR,lang)}" target="_blank" rel="noopener">${esc(label)}</a>`;
+
+function renderChrome(){
+  const t=UI[state.lang];
+  document.documentElement.lang=state.lang==="zh"?"zh-Hans":"en-GB";
+  document.getElementById("tagline").textContent=t.tagline;
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===state.lang));
+  document.getElementById("tabs").innerHTML=TABS.map(k=>`<button role="tab" id="tab-${k}" data-tab="${k}" aria-selected="${k===state.tab}">${t.tabs[k]}</button>`).join("");
+  const showWeek=["today","pray","family"].includes(state.tab);
+  const wk=document.getElementById("week"); wk.hidden=!showWeek;
+  wk.innerHTML=DAYS.map((x,i)=>`<button class="day${i===todayIdx?" today":""}" aria-pressed="${i===state.day}" data-i="${i}">${x.d[state.lang==="zh"?1:0]}<b>${x.date}</b></button>`).join("");
+}
+
+function viewToday(){
+  const t=UI[state.lang], D=DAYS[state.day], x=D[state.lang], en=D.en;
+  return `<p class="note" style="margin:16px 0 0;max-width:60ch">${t.about}</p><p class="eyebrow">${t.series}</p>
+  <div class="verse"><h1>${esc(x.title)}</h1><blockquote>“${esc(x.text)}”</blockquote>
+   <cite>${refLink(en.ref,x.ref,state.lang)} · ${t.ver}</cite></div>
+  <div class="context"><span class="k">${esc(x.ctx[0])}</span><span>${esc(x.ctx[1])}</span></div>
+  <div class="prose">${x.body.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+  <div class="label">${t.prayLbl}</div><p class="pray">${esc(x.pray)}</p>
+  <div class="label">${t.doLbl}</div><p class="panel">${esc(x.act)}</p>`;
+}
+
+function viewCommute(){
+  const t=UI[state.lang], P=PLANS[state.plan], names=P[state.lang], done=state.done[state.plan]||[];
+  const n=names.length, next=names.findIndex((_,i)=>!done.includes(i));
+  const bookName=state.lang==="zh"?P.zhBook:P.book;
+  return `<h2 class="sec">${t.commuteH}</h2><p class="sub">${t.commuteSub}</p>
+  <div class="plans">${Object.keys(PLANS).map(k=>`<button data-plan="${k}" aria-pressed="${k===state.plan}">${t.plans[k]}</button>`).join("")}</div>
+  <div style="--line-colour:${P.colour}">
+   <p class="note">${t.planSub[state.plan]}</p>
+   <div class="progress"><span>${done.length} ${t.of} ${n} ${t.stops}</span><div class="track"><div class="fill" style="width:${Math.round(done.length/n*100)}%"></div></div></div>
+   <ol class="line">${names.map((nm,i)=>{const ch=P.start+i, d=done.includes(i);
+     const q=`${P.book} ${ch}`, label=state.lang==="zh"?`${bookName} ${ch}${state.plan==="ascent"?"篇":"章"}`:`${bookName} ${ch}`;
+     return `<li class="stop${d?" done":""}${i===next?" next":""}"><span class="dot"></span>
+      <div class="cap"><span class="code">${P.code}${i+1}</span><strong>${esc(nm)}</strong>${i===next?` <span>· ${t.nextStop}</span>`:""}<br><span>${esc(label)}</span></div>
+      <div class="act"><a href="${gw(q,state.lang)}" target="_blank" rel="noopener">${t.readFull}</a>
+      <input type="checkbox" class="chk" id="stop-${state.plan}-${i}" data-stop="${i}" ${d?"checked":""} aria-label="${esc(label)}"></div></li>`}).join("")}</ol>
+   ${done.length?`<button class="reset" data-reset="1">${t.reset}</button>`:""}
+  </div>`;
+}
+
+function viewPray(){
+  const t=UI[state.lang], D=DAYS[state.day], x=D.nat[state.lang];
+  return `<h2 class="sec">${t.prayH}</h2><p class="sub">${esc(t.praySub)}</p>
+  <div class="label">${t.todayFocus} · ${D.d[state.lang==="zh"?1:0]}</div>
+  <div class="panel"><p style="margin:0 0 8px;font-weight:600">${esc(x.h)}</p><ul>${x.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+   <p class="note" style="margin:10px 0 0">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)}</p></div>
+  <div class="label">${t.weekFocus}</div>
+  <div class="panel"><ul>${DAYS.map((d,i)=>`<li${i===state.day?' style="font-weight:600"':""}>${d.d[state.lang==="zh"?1:0]} · ${esc(d.nat[state.lang].h)}</li>`).join("")}</ul></div>`;
+}
+
+function viewFamily(){
+  const t=UI[state.lang], D=DAYS[state.day], x=D[state.lang], f=D.fam[state.lang];
+  return `<h2 class="sec">${t.famH}</h2><p class="sub">${t.famSub}</p><span class="family-time">${t.famTime} · ${esc(x.title)}</span>
+  <div class="label">1 · ${t.famRead}</div><p class="pray">“${esc(x.text)}”<br><span class="note">${refLink(D.en.ref,x.ref,state.lang)}</span></p>
+  <div class="label">2 · ${t.famTalk}</div><div class="panel"><ul>${f.talk.map(q=>`<li>${esc(q)}</li>`).join("")}</ul></div>
+  <div class="label">3 · ${t.famCat}</div><div class="panel qa"><p class="q">${esc(f.cat[0])}</p><p class="a">${esc(f.cat[1])}</p></div>
+  <div class="label">4 · ${t.famSing}</div><p class="panel">${esc(f.sing)}</p>
+  <div class="label">5 · ${t.famPray}</div><p class="pray">${esc(f.pray)}</p>`;
+}
+
+function viewBible(){
+  const t=UI[state.lang], zh=state.lang==="zh";
+  const b=BOOKS[state.book], label=zh?`${b.zh} ${state.chap}${b.en==="Psalms"?"篇":"章"}`:(b.en==="Psalms"?`Psalm ${state.chap}`:`${b.en} ${state.chap}`);
+  const q=b.en==="Psalms"?`Psalm ${state.chap}`:`${b.en} ${state.chap}`;
+  const vs=!zh&&PASSAGES[`${b.en} ${state.chap}`];
+  const chapOpts=Array.from({length:b.ch},(_,i)=>`<option value="${i+1}"${i+1===state.chap?" selected":""}>${zh?t.chapter.replace("{n}",i+1):`${t.chapter} ${i+1}`}</option>`).join("");
+  return `<h2 class="sec">${t.bibleH}</h2>
+  <div class="reader-controls">
+   <select id="book" aria-label="Book">${BOOKS.map((x,i)=>`<option value="${i}"${i===state.book?" selected":""}>${esc(zh?x.zh:x.en)}</option>`).join("")}</select>
+   <select id="chap" aria-label="Chapter">${chapOpts}</select></div>
+  <div class="chapter"><h2 class="sec" style="margin-top:4px">${esc(label)}</h2>
+   ${vs?`<p class="note">${t.bibleSel} · NIV</p>${vs.map(v=>`<p><span class="vn">${v[0]}</span>${esc(v[1])}</p>`).join("")}`:`<p class="sub">${t.bibleOnly}</p>`}
+   <a class="btn" href="${gw(q,state.lang)}" target="_blank" rel="noopener">${t.bibleOpen}</a></div>`;
+}
+
+const VIEWS={today:viewToday,commute:viewCommute,pray:viewPray,family:viewFamily,bible:viewBible};
+function render(){renderChrome();document.getElementById("main").innerHTML=`<div class="view">${VIEWS[state.tab]()}</div><footer>${UI[state.lang].footer}</footer>`}
+
+document.addEventListener("click",e=>{
+  const L=e.target.closest(".lang button"); if(L){state.lang=L.dataset.lang;store.set("sdg-lang",state.lang);render();return}
+  const T=e.target.closest("#tabs button"); if(T){state.tab=T.dataset.tab;render();window.scrollTo(0,0);return}
+  const Dy=e.target.closest(".day"); if(Dy){state.day=+Dy.dataset.i;render();return}
+  const Pl=e.target.closest("[data-plan]"); if(Pl){state.plan=Pl.dataset.plan;store.set("sdg-plan",state.plan);render();return}
+  if(e.target.closest("[data-reset]")){state.done[state.plan]=[];store.set("sdg-done",state.done);render();}
+});
+document.addEventListener("change",e=>{
+  if(e.target.matches(".chk")){const i=+e.target.dataset.stop,arr=state.done[state.plan]||(state.done[state.plan]=[]);
+    const k=arr.indexOf(i); if(e.target.checked&&k<0)arr.push(i); if(!e.target.checked&&k>=0)arr.splice(k,1);
+    store.set("sdg-done",state.done);render();}
+  if(e.target.id==="book"){state.book=+e.target.value;state.chap=1;render()}
+  if(e.target.id==="chap"){state.chap=+e.target.value;render()}
+});
+render();
+</script>
