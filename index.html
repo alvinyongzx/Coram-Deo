@@ -345,8 +345,9 @@ function viewPray(){
   const t=UI[state.lang], D=curDays()[state.day], x=D.nat[state.lang];
   return `<h2 class="sec">${t.prayH}</h2><p class="sub">${esc(t.praySub)}</p>
   <div class="label">${t.todayFocus} · ${D.d[state.lang==="zh"?1:0]}</div>
-  <div class="panel"><p style="margin:0 0 8px;font-weight:600">${esc(x.h)}</p><ul>${x.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
-   <p class="note" style="margin:10px 0 0">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)}</p></div>
+  <div class="panel"><p style="margin:0 0 4px;font-weight:600">${esc(x.h)}</p>
+   <p class="note" style="margin:0 0 10px">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)}</p>
+   <ul>${x.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
   <div class="label">${t.weekFocus}</div>
   <div class="panel"><ul>${curDays().map((d,i)=>`<li${i===state.day?' style="font-weight:600"':""}>${d.d[state.lang==="zh"?1:0]} · ${esc(d.nat[state.lang].h)}</li>`).join("")}</ul></div>`;
 }
