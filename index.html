@@ -67,6 +67,8 @@ html[lang^="zh"] .verse blockquote{font:400 21px/1.75 var(--zh-serif)}
 .pray{font-family:var(--serif);font-size:20px;line-height:1.5;border-left:2px solid var(--accent);padding-left:14px;margin:0}
 html[lang^="zh"] .pray{font-family:var(--zh-serif);font-size:18px;line-height:1.8}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0}
+.pv{font-family:var(--serif);font-size:19px;line-height:1.55;border-left:2px solid var(--accent);padding-left:12px;margin:0 0 14px}
+html[lang^="zh"] .pv{font-family:var(--zh-serif);font-size:17px;line-height:1.85}
 .panel ul{margin:0;padding-left:20px}.panel li{margin:4px 0}
 h2.sec{font:500 30px/1.2 var(--display);margin:16px 0 6px;text-wrap:balance}
 html[lang^="zh"] h2.sec{font:600 24px/1.4 var(--zh-serif)}
@@ -126,7 +128,7 @@ const UI={
   commuteH:"One stop, one chapter",commuteSub:"Reading plans sized for the MRT. Each stop is one chapter, roughly a five-minute read. Tick it off when you alight.",
   plans:{mark:"Mark Line",ascent:"Ascent Line"},planSub:{mark:"The Gospel of Mark · 16 stops",ascent:"Psalms of Ascents, Psalms 120–134 · 15 stops"},
   of:"of",stops:"stops done",nextStop:"Next stop",reset:"Start the line again",
-  prayH:"Pray for Singapore",praySub:"\"I urge, then, first of all, that petitions, prayers, intercessions and thanksgiving be made for all people, for kings and all those in authority.\" 1 Timothy 2:1–2 (NIV)",
+  prayH:"Pray for Singapore",praySub:"\"I urge, then, first of all, that petitions, prayers, intercession and thanksgiving be made for all people – for kings and all those in authority.\" 1 Timothy 2:1–2 (NIV)",
   todayFocus:"Today's focus",weekFocus:"This week",scripture:"Pray through",
   famH:"Family worship",famSub:"About ten minutes after dinner. Read, talk, learn, sing and pray, built on today's devotion.",
   famRead:"Read together",famTalk:"Talk about it",famCat:"Westminster Shorter Catechism",famSing:"Sing",famPray:"Pray",famTime:"10 minutes",
@@ -273,6 +275,23 @@ const PASSAGES={
 "Psalms 46":[[1,"God is our refuge and strength, an ever-present help in trouble."],[2,"Therefore we will not fear, though the earth give way and the mountains fall into the heart of the sea,"],[3,"though its waters roar and foam and the mountains quake with their surging."],[10,"He says, 'Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.'"],[11,"The Lord Almighty is with us; the God of Jacob is our fortress."]]
 };
 
+// Full text of each day's prayer passage: NIV (English) and Chinese Union Version 和合本 (Chinese)
+const PRAYV={
+"1 Timothy 2:1–4":{en:[[1,"I urge, then, first of all, that petitions, prayers, intercession and thanksgiving be made for all people –"],[2,"for kings and all those in authority, that we may live peaceful and quiet lives in all godliness and holiness."],[3,"This is good, and pleases God our Saviour,"],[4,"who wants all people to be saved and to come to a knowledge of the truth."]],
+ zh:[[1,"我劝你，第一要为万人恳求、祷告、代求、祝谢；"],[2,"为君王和一切在位的也该如此，使我们可以敬虔、端正、平安无事地度日。"],[3,"这是好的，在神我们救主面前可蒙悦纳。"],[4,"他愿意万人得救，明白真道。"]]},
+"Psalm 121:7–8":{en:[[7,"The Lord will keep you from all harm – he will watch over your life;"],[8,"the Lord will watch over your coming and going both now and for evermore."]],
+ zh:[[7,"耶和华要保护你，免受一切的灾害；他要保护你的性命。"],[8,"你出你入，耶和华要保护你，从今时直到永远。"]]},
+"Colossians 3:23–24":{en:[[23,"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters,"],[24,"since you know that you will receive an inheritance from the Lord as a reward. It is the Lord Christ you are serving."]],
+ zh:[[23,"无论做什么，都要从心里做，像是给主做的，不是给人做的，"],[24,"因你们知道从主那里必得着基业为赏赐；你们所侍奉的乃是主基督。"]]},
+"Deuteronomy 10:18–19":{en:[[18,"He defends the cause of the fatherless and the widow, and loves the foreigner residing among you, giving them food and clothing."],[19,"And you are to love those who are foreigners, for you yourselves were foreigners in Egypt."]],
+ zh:[[18,"他为孤儿寡妇伸冤，又怜爱寄居的，赐给他衣食。"],[19,"所以你们要怜爱寄居的，因为你们在埃及地也作过寄居的。"]]},
+"Psalm 103:13–14":{en:[[13,"As a father has compassion on his children, so the Lord has compassion on those who fear him;"],[14,"for he knows how we are formed, he remembers that we are dust."]],
+ zh:[[13,"父亲怎样怜恤他的儿女，耶和华也怎样怜恤敬畏他的人！"],[14,"因为他知道我们的本体，思念我们不过是尘土。"]]},
+"James 5:17–18":{en:[[17,"Elijah was a human being, even as we are. He prayed earnestly that it would not rain, and it did not rain on the land for three and a half years."],[18,"Again he prayed, and the heavens gave rain, and the earth produced its crops."]],
+ zh:[[17,"以利亚与我们是一样性情的人，他恳切祷告，求不要下雨，雨就三年零六个月不下在地上。"],[18,"他又祷告，天就降下雨来，地也生出土产。"]]},
+"John 17:20–23":{en:[[20,"My prayer is not for them alone. I pray also for those who will believe in me through their message,"],[21,"that all of them may be one, Father, just as you are in me and I am in you. May they also be in us so that the world may believe that you have sent me."],[22,"I have given them the glory that you gave me, that they may be one as we are one –"],[23,"I in them and you in me – so that they may be brought to complete unity. Then the world will know that you sent me and have loved them even as you have loved me."]],
+ zh:[[20,"我不但为这些人祈求，也为那些因他们的话信我的人祈求，"],[21,"使他们都合而为一。正如你父在我里面，我在你里面，使他们也在我们里面，叫世人可以信你差了我来。"],[22,"你所赐给我的荣耀，我已赐给他们，使他们合而为一，像我们合而为一。"],[23,"我在他们里面，你在我里面，使他们完完全全地合而为一，叫世人知道你差了我来，也知道你爱他们如同爱我一样。"]]}
+};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(_){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}}};
 // Each week of devotions is added here with its Monday date. Older weeks stay as an archive.
@@ -346,7 +365,8 @@ function viewPray(){
   return `<h2 class="sec">${t.prayH}</h2><p class="sub">${esc(t.praySub)}</p>
   <div class="label">${t.todayFocus} · ${D.d[state.lang==="zh"?1:0]}</div>
   <div class="panel"><p style="margin:0 0 4px;font-weight:600">${esc(x.h)}</p>
-   <p class="note" style="margin:0 0 10px">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)}</p>
+   <p class="note" style="margin:0 0 8px">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)} · ${t.ver}</p>
+   ${PRAYV[D.nat.en.ref]?`<div class="pv">${PRAYV[D.nat.en.ref][state.lang].map(v=>`<span class="vn">${v[0]}</span>${esc(v[1])} `).join("")}</div>`:""}
    <ul>${x.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
   <div class="label">${t.weekFocus}</div>
   <div class="panel"><ul>${curDays().map((d,i)=>`<li${i===state.day?' style="font-weight:600"':""}>${d.d[state.lang==="zh"?1:0]} · ${esc(d.nat[state.lang].h)}</li>`).join("")}</ul></div>`;
