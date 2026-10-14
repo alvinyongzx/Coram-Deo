@@ -2,14 +2,15 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#173A3A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=EB+Garamond:wght@500;600&family=Figtree:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap">
 <style>
-/* Layout: single reading column; sticky header with language toggle + week strip; bottom tab bar for five sections */
+/* Layout: single reading column; sticky header with language toggle + five tabs; week picker (with past-week arrows) scrolls with the page */
 :root{
   --bg:#EEF2F0; --surface:#FFFFFF; --ink:#152826; --muted:#5A6B68; --line:#D3DCD9;
   --deep:#173A3A; --on-deep:#EAF1EE; --accent:#C8742E; --accent-soft:#F6E6D6;
   --mrt-a:#7A4C9E; --mrt-b:#1F8A5B;
   --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --display:"EB Garamond", Garamond, Georgia, "Times New Roman", serif;
   --sans:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --zh-serif:"Noto Serif SC","Songti SC","SimSun",serif;
   --zh-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
@@ -26,30 +27,34 @@
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65}
 html[lang^="zh"] body{font-family:var(--zh-sans);line-height:1.8}
 .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-main.wrap{padding-block:4px 110px}
+main.wrap{padding-block:4px 48px}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px 10px}
-.brand{font-family:var(--serif);font-size:24px;line-height:1}
+.brand{font-family:var(--display);font-weight:600;font-size:24px;line-height:1}
 .brand small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:4px}
 html[lang^="zh"] .brand small{font-family:var(--zh-sans);letter-spacing:2px}
 .lang{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .lang button{font:500 14px var(--sans);color:var(--muted);background:none;border:0;border-radius:999px;padding:5px 12px;cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--deep);color:var(--on-deep)}
-.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding-block:0 12px}
+.weeknav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 0 8px}
+.weeknav span{font:500 14px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+html[lang^="zh"] .weeknav span{font-family:var(--zh-sans)}
+.weeknav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 18px/1 var(--sans);cursor:pointer}
+.weeknav button:disabled{opacity:.35;cursor:default}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .day{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 2px;text-align:center;cursor:pointer;font:500 12px var(--sans)}
 .day b{display:block;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
 .day.today{border-color:var(--accent)}
 .day[aria-pressed="true"]{background:var(--deep);color:var(--on-deep);border-color:var(--deep)}
-nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-nav.tabbar .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
-nav.tabbar button{background:none;border:0;color:var(--muted);font:500 13px var(--sans);padding:14px 0 12px;cursor:pointer;border-top:2px solid transparent}
-html[lang^="zh"] nav.tabbar button{font-family:var(--zh-sans);font-size:14px}
-nav.tabbar button[aria-selected="true"]{color:var(--ink);border-top-color:var(--accent)}
+nav.tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+nav.tabbar button{background:none;border:0;color:var(--muted);font:500 14px var(--sans);padding:8px 0 10px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+html[lang^="zh"] nav.tabbar button{font-family:var(--zh-sans);font-size:15px}
+nav.tabbar button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .eyebrow{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);font-weight:600;margin:18px 0 0}
 html[lang^="zh"] .eyebrow,html[lang^="zh"] .label{letter-spacing:2px}
 .verse{background:var(--deep);color:var(--on-deep);border-radius:16px;padding:24px 22px;margin:10px 0 22px}
-.verse h1{font:400 34px/1.15 var(--serif);margin:0 0 14px;text-wrap:balance}
+.verse h1{font:500 34px/1.15 var(--display);margin:0 0 14px;text-wrap:balance;letter-spacing:.2px}
 .verse blockquote{margin:0;font:italic 400 23px/1.45 var(--serif)}
 html[lang^="zh"] .verse h1{font:600 28px/1.3 var(--zh-serif)}
 html[lang^="zh"] .verse blockquote{font:400 21px/1.75 var(--zh-serif)}
@@ -63,7 +68,7 @@ html[lang^="zh"] .verse blockquote{font:400 21px/1.75 var(--zh-serif)}
 html[lang^="zh"] .pray{font-family:var(--zh-serif);font-size:18px;line-height:1.8}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0}
 .panel ul{margin:0;padding-left:20px}.panel li{margin:4px 0}
-h2.sec{font:400 30px/1.2 var(--serif);margin:16px 0 6px;text-wrap:balance}
+h2.sec{font:500 30px/1.2 var(--display);margin:16px 0 6px;text-wrap:balance}
 html[lang^="zh"] h2.sec{font:600 24px/1.4 var(--zh-serif)}
 .sub{color:var(--muted);margin:0 0 16px;max-width:60ch}
 .qa .q{font-weight:600;margin:0 0 6px}.qa .a{margin:0}
@@ -109,12 +114,10 @@ footer a{color:var(--muted)}
       <button id="lang-zh" data-lang="zh" aria-pressed="false">中文</button>
     </div>
   </div>
-  <div class="week" id="week" aria-label="Pick a day this week"></div>
+  <nav class="tabbar" aria-label="Sections" role="tablist" id="tabs"></nav>
 </div></header>
 
 <main class="wrap" id="main"></main>
-
-<nav class="tabbar" aria-label="Sections"><div class="wrap" role="tablist" id="tabs"></div></nav>
 
 <script>
 const UI={
@@ -272,8 +275,19 @@ const PASSAGES={
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(_){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}}};
-const todayIdx=(new Date().getDay()+6)%7;
-const state={lang:store.get("sdg-lang","en"),tab:"today",day:todayIdx,plan:store.get("sdg-plan","mark"),done:store.get("sdg-done",{mark:[],ascent:[]}),book:18,chap:46};
+// Each week of devotions is added here with its Monday date. Older weeks stay as an archive.
+const WEEKS=[{start:"2026-10-12",days:DAYS}];
+const DAY_MS=864e5, sgToday=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Singapore"}));
+const midnight=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+const weekStart=w=>{const [y,m,d]=WEEKS[w].start.split("-").map(Number);return new Date(y,m-1,d)};
+const dayDate=(w,i)=>new Date(weekStart(w).getTime()+i*DAY_MS);
+const sameDay=(a,b)=>midnight(a).getTime()===midnight(b).getTime();
+let startWeek=WEEKS.length-1, startDay=6;
+for(let w=0;w<WEEKS.length;w++){const off=Math.round((midnight(sgToday)-weekStart(w))/DAY_MS);
+  if(off>=0&&off<7){startWeek=w;startDay=off;break}
+  if(off<0&&w===0){startWeek=0;startDay=0;break}}
+const curDays=()=>WEEKS[state.week].days;
+const state={lang:store.get("sdg-lang","en"),tab:"today",week:startWeek,day:startDay,plan:store.get("sdg-plan","mark"),done:store.get("sdg-done",{mark:[],ascent:[]}),book:18,chap:46};
 const TABS=["today","commute","pray","family","bible"];
 const gw=(q,lang)=>`https://www.biblegateway.com/passage/?search=${encodeURIComponent(q)}&version=${lang==="zh"?"CNVS":"NIVUK"}`;
 const refLink=(enR,label,lang)=>`<a href="${gw(enR,lang)}" target="_blank" rel="noopener">${esc(label)}</a>`;
@@ -284,14 +298,22 @@ function renderChrome(){
   document.getElementById("tagline").textContent=t.tagline;
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===state.lang));
   document.getElementById("tabs").innerHTML=TABS.map(k=>`<button role="tab" id="tab-${k}" data-tab="${k}" aria-selected="${k===state.tab}">${t.tabs[k]}</button>`).join("");
-  const showWeek=["today","pray","family"].includes(state.tab);
-  const wk=document.getElementById("week"); wk.hidden=!showWeek;
-  wk.innerHTML=DAYS.map((x,i)=>`<button class="day${i===todayIdx?" today":""}" aria-pressed="${i===state.day}" data-i="${i}">${x.d[state.lang==="zh"?1:0]}<b>${x.date}</b></button>`).join("");
+}
+
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function weekPicker(){
+  const zh=state.lang==="zh", w=state.week, a=dayDate(w,0), b=dayDate(w,6);
+  const range=zh?`${a.getFullYear()}年${a.getMonth()+1}月${a.getDate()}日 – ${b.getMonth()+1}月${b.getDate()}日`
+    :`${a.getDate()}${a.getMonth()!==b.getMonth()?" "+MONTHS[a.getMonth()]:""} – ${b.getDate()} ${MONTHS[b.getMonth()]} ${b.getFullYear()}`;
+  return `<div class="weeknav"><button data-week="-1" aria-label="${zh?"上一周":"Previous week"}"${w===0?" disabled":""}>‹</button>
+   <span>${range}</span><button data-week="1" aria-label="${zh?"下一周":"Next week"}"${w===WEEKS.length-1?" disabled":""}>›</button></div>
+  <div class="week" aria-label="${zh?"选择日期":"Pick a day"}">${curDays().map((x,i)=>{const dt=dayDate(w,i);
+    return `<button class="day${sameDay(dt,sgToday)?" today":""}" aria-pressed="${i===state.day}" data-i="${i}">${x.d[zh?1:0]}<b>${dt.getDate()}</b></button>`}).join("")}</div>`;
 }
 
 function viewToday(){
-  const t=UI[state.lang], D=DAYS[state.day], x=D[state.lang], en=D.en;
-  return `<p class="note" style="margin:16px 0 0;max-width:60ch">${t.about}</p><p class="eyebrow">${t.series}</p>
+  const t=UI[state.lang], D=curDays()[state.day], x=D[state.lang], en=D.en;
+  return `<p class="note" style="margin:16px 0 0;max-width:60ch">${t.about}</p>
   <div class="verse"><h1>${esc(x.title)}</h1><blockquote>“${esc(x.text)}”</blockquote>
    <cite>${refLink(en.ref,x.ref,state.lang)} · ${t.ver}</cite></div>
   <div class="context"><span class="k">${esc(x.ctx[0])}</span><span>${esc(x.ctx[1])}</span></div>
@@ -320,17 +342,17 @@ function viewCommute(){
 }
 
 function viewPray(){
-  const t=UI[state.lang], D=DAYS[state.day], x=D.nat[state.lang];
+  const t=UI[state.lang], D=curDays()[state.day], x=D.nat[state.lang];
   return `<h2 class="sec">${t.prayH}</h2><p class="sub">${esc(t.praySub)}</p>
   <div class="label">${t.todayFocus} · ${D.d[state.lang==="zh"?1:0]}</div>
   <div class="panel"><p style="margin:0 0 8px;font-weight:600">${esc(x.h)}</p><ul>${x.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
    <p class="note" style="margin:10px 0 0">${t.scripture}: ${refLink(D.nat.en.ref,x.ref,state.lang)}</p></div>
   <div class="label">${t.weekFocus}</div>
-  <div class="panel"><ul>${DAYS.map((d,i)=>`<li${i===state.day?' style="font-weight:600"':""}>${d.d[state.lang==="zh"?1:0]} · ${esc(d.nat[state.lang].h)}</li>`).join("")}</ul></div>`;
+  <div class="panel"><ul>${curDays().map((d,i)=>`<li${i===state.day?' style="font-weight:600"':""}>${d.d[state.lang==="zh"?1:0]} · ${esc(d.nat[state.lang].h)}</li>`).join("")}</ul></div>`;
 }
 
 function viewFamily(){
-  const t=UI[state.lang], D=DAYS[state.day], x=D[state.lang], f=D.fam[state.lang];
+  const t=UI[state.lang], D=curDays()[state.day], x=D[state.lang], f=D.fam[state.lang];
   return `<h2 class="sec">${t.famH}</h2><p class="sub">${t.famSub}</p><span class="family-time">${t.famTime} · ${esc(x.title)}</span>
   <div class="label">1 · ${t.famRead}</div><p class="pray">“${esc(x.text)}”<br><span class="note">${refLink(D.en.ref,x.ref,state.lang)}</span></p>
   <div class="label">2 · ${t.famTalk}</div><div class="panel"><ul>${f.talk.map(q=>`<li>${esc(q)}</li>`).join("")}</ul></div>
@@ -355,12 +377,14 @@ function viewBible(){
 }
 
 const VIEWS={today:viewToday,commute:viewCommute,pray:viewPray,family:viewFamily,bible:viewBible};
-function render(){renderChrome();document.getElementById("main").innerHTML=`<div class="view">${VIEWS[state.tab]()}</div><footer>${UI[state.lang].footer}</footer>`}
+function render(){renderChrome();const showWeek=["today","pray","family"].includes(state.tab);
+  document.getElementById("main").innerHTML=`${showWeek?weekPicker():""}<div class="view">${VIEWS[state.tab]()}</div><footer>${UI[state.lang].footer}</footer>`}
 
 document.addEventListener("click",e=>{
   const L=e.target.closest(".lang button"); if(L){state.lang=L.dataset.lang;store.set("sdg-lang",state.lang);render();return}
   const T=e.target.closest("#tabs button"); if(T){state.tab=T.dataset.tab;render();window.scrollTo(0,0);return}
   const Dy=e.target.closest(".day"); if(Dy){state.day=+Dy.dataset.i;render();return}
+  const Wk=e.target.closest("[data-week]"); if(Wk&&!Wk.disabled){state.week=Math.max(0,Math.min(WEEKS.length-1,state.week+(+Wk.dataset.week)));state.day=0;render();return}
   const Pl=e.target.closest("[data-plan]"); if(Pl){state.plan=Pl.dataset.plan;store.set("sdg-plan",state.plan);render();return}
   if(e.target.closest("[data-reset]")){state.done[state.plan]=[];store.set("sdg-done",state.done);render();}
 });
